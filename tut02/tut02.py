@@ -32,7 +32,7 @@ def octact_identification(mod=5000):
       w_avg_col.extend(['']*(len(inp['W'])-1))
       
       # read the output file
-      outp = pd.read_excel('/content/output_octant_transition_identify.xlsx', index_col = 0)
+      outp = pd.read_excel('output_octant_transition_identify.xlsx', index_col = 0)
       
       # entered average column in outp variable
       outp["U Avg"] = u_avg_col
