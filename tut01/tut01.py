@@ -125,7 +125,7 @@ def octact_identification(mod=5000):
         num1 = mod*i
         num2 = (mod*(i+1)) - 1
         if num2 > cnt:
-            num2 = cnt
+            num2 = cnt - 1
             
         str_range = str(num1) + '-' + str(num2)
         octant_id.append(str_range)
