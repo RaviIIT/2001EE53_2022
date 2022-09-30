@@ -34,11 +34,14 @@ def octact_identification(mod=5000):
       # read the output file
       outp = pd.read_excel('output_octant_transition_identify.xlsx', index_col = 0)
       
-      # entered average column in outp variable
-      outp["U Avg"] = u_avg_col
-      outp["V Avg"] = v_avg_col
-      outp["W Avg"] = w_avg_col
-      
+      try:
+          # entered average column in outp variable
+          outp["U Avg"] = u_avg_col
+          outp["V Avg"] = v_avg_col
+          outp["W Avg"] = w_avg_col
+      except:
+          print('Error : Mismatch in length of Average quantities columns.')
+            
       u_dash = []
       v_dash = []
       w_dash = []
@@ -53,11 +56,14 @@ def octact_identification(mod=5000):
       for i in inp['W']:
           w_dash.append(i - w_avg)
       
-      # entered the columns in outp variable
-      outp["U\'=U - U avg"] = u_dash
-      outp["V\'=V - V avg"] = v_dash
-      outp["W\'=W - W avg"] = w_dash
-      
+      try:
+          # entered the columns in outp variable
+          outp["U\'=U - U avg"] = u_dash
+          outp["V\'=V - V avg"] = v_dash
+          outp["W\'=W - W avg"] = w_dash
+      except:
+          print('Error : Mismatch in length of colums.')
+            
       # created Octant value column
       octant_col = []
       x = []
