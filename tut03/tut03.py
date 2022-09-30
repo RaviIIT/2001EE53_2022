@@ -30,7 +30,7 @@ def octant_longest_subsequence_count():
           w_avg_col.extend(['']*(len(inp['W'])-1))
 
           # read the output excel file
-          outp = pd.read_excel('/content/output_octant_longest_subsequence.xlsx', index_col = 0)
+          outp = pd.read_excel('output_octant_longest_subsequence.xlsx', index_col = 0)
 
           try:
                 # entered average column in outp variable
@@ -219,9 +219,12 @@ def octant_longest_subsequence_count():
                 outp['Count'] = longest_count
           except:
                 print('Error : Mismatch in length of count of subsequences')
-
-          # writing to output excel file
-          outp.to_excel('output_octant_longest_subsequence.xlsx')
+          
+          try:
+                # writing to output excel file
+                outp.to_excel('output_octant_longest_subsequence.xlsx')
+          except:
+                print('Error happened while writing to excel file.')
       
     except:
           print('Error encountered: Input file not found.')          
