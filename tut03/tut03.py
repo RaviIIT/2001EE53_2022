@@ -6,9 +6,10 @@ start_time = datetime.now()
 
 def octant_longest_subsequence_count():
       # stored excel file in a variable and took indexing on 0th column
-      
+    
+    # error handling if input file do not exists
     try:
-          inp = pd.read_excel('/content/sample_data/input_octant_longest_subsequence.xlsx', index_col = 0)
+          inp = pd.read_excel('input_octant_longest_subsequence.xlsx', index_col = 0)
 
           ## stored average of each column in input
           u_avg = inp['U'].mean()
@@ -28,14 +29,17 @@ def octant_longest_subsequence_count():
           v_avg_col.extend(['']*(len(inp['V'])-1))
           w_avg_col.extend(['']*(len(inp['W'])-1))
 
-          # read the output.csv file
+          # read the output excel file
           outp = pd.read_excel('/content/output_octant_longest_subsequence.xlsx', index_col = 0)
 
-          # entered average column in outp variable
-          outp["U Avg"] = u_avg_col
-          outp["V Avg"] = v_avg_col
-          outp["W Avg"] = w_avg_col
-
+          try:
+                # entered average column in outp variable
+                outp["U Avg"] = u_avg_col
+                outp["V Avg"] = v_avg_col
+                outp["W Avg"] = w_avg_col
+          except:
+                print('Error encountered : Mismatch in column length in Average colms entering.')
+                
           u_dash = []
           v_dash = []
           w_dash = []
@@ -49,12 +53,15 @@ def octant_longest_subsequence_count():
 
           for i in inp['W']:
               w_dash.append(i - w_avg)
-
-          # entered the columns in outp variable
-          outp["U\'=U - U avg"] = u_dash
-          outp["V\'=V - V avg"] = v_dash
-          outp["W\'=W - W avg"] = w_dash
-
+          
+          try:
+                # entered the columns in outp variable
+                outp["U\'=U - U avg"] = u_dash
+                outp["V\'=V - V avg"] = v_dash
+                outp["W\'=W - W avg"] = w_dash
+          except:
+                print('Error encountered : Mismatch in length of column of Values - Mean value.')
+                  
           # created Octant value column
           octant_col = []
           x = []
@@ -96,8 +103,11 @@ def octant_longest_subsequence_count():
                       octant_col.append(4)
                   else:
                       octant_col.append(-4)
-
-          outp["Octant"] = octant_col 
+          
+          try:
+                outp["Octant"] = octant_col
+          except:
+                print('Error : Mismatch in length of octant columns.')
 
           # entered empty column in sheet
           empty_col = []
@@ -174,9 +184,12 @@ def octant_longest_subsequence_count():
             count_col.append(0-i)
 
           count_col.extend(['']*(len(inp['U']) - 8))
-          # inserting column in outp variable
-          outp['Octant'] = count_col
-
+      
+          try:
+                # inserting column in outp variable
+                outp['octant'] = count_col
+          except:
+                print('Error : Mismatch in octant column length.')
 
            # list for longest subsequence length and appending the values respectivelu by lookup from dictionary
           longest_len = []
@@ -185,8 +198,12 @@ def octant_longest_subsequence_count():
             longest_len.append(dictn_len[0-i])
 
           longest_len.extend(['']*(len(inp['U']) - 8))
-          # inserted the column into outp
-          outp['Longest Subsequence Length'] = longest_len
+          
+          try:
+                # inserted the column into outp
+                outp['Longest Subsequence Length'] = longest_len  
+          except:
+                print('Error : Mismatch in length of longest subsequence length columns')
 
 
           # list for longest subsequence length count
@@ -196,8 +213,12 @@ def octant_longest_subsequence_count():
             longest_count.append(dictn_cnt[0-i])
 
           longest_count.extend(['']*(len(inp['U']) - 8))
-          # inserted the column into outp
-          outp['Count '] = longest_count
+      
+          try:
+                # inserted the column into outp
+                outp['Count'] = longest_count
+          except:
+                print('Error : Mismatch in length of count of subsequences')
 
           # writing to output excel file
           outp.to_excel('output_octant_longest_subsequence.xlsx')
