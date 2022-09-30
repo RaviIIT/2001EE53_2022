@@ -104,7 +104,7 @@ def octant_longest_subsequence_count():
 
     # created 2 dictionary
     dictn_len = {}            # dictionary for maximum subsequence length of octant values
-    dictn_cnt = {}
+    dictn_cnt = {}            # dictionary for count of maximum subsequence length of octant values
 
     for i in range(1,5):
       dictn_len[i] = 0
