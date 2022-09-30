@@ -106,81 +106,98 @@ def octant_longest_subsequence_count():
     dictn_len = {}            # dictionary for maximum subsequence length of octant values
     dictn_cnt = {}            # dictionary for count of maximum subsequence length of octant values
 
+    # initialised dictionary elements with 0
     for i in range(1,5):
       dictn_len[i] = 0
       dictn_cnt[i] = 0
       dictn_len[0-i] = 0
       dictn_cnt[0-i] = 0
 
-
+    # updating maximum subsequence length of each octant id in dictn_len
     for w in range(cnt):
-      counts = 0
-
+      counts = 0                          # variable to store length of current subsequence
+      
       for q in range(w, cnt):
-        if octant_col[q] == octant_col[w]:
+        if octant_col[q] == octant_col[w]:      # if same octant id found incrementing count
           counts += 1
           
-          if q == (cnt - 1):
+          if q == (cnt - 1):                    
             w = q
-        else:
+        else:                                   # else breaking loop and updating subsequence length
           w = q-1
           break
         
       dictn_len[octant_col[w]] = max(counts, dictn_len[octant_col[w]])
-
+      
+    # looping over all octant ids
     for i in range(1,5):
 
       # finding maximum subsequence length's count for +i octant value
       # maximum subsequence length = dictn_len[i]
+      
+      # iterating for each starting point of subsequence
       for w in range(cnt - dictn_len[i] + 1):
         flag = True
-
+        
+        # checking over the window of length dictn_len[i] starting from w
         for q in range(w, w + dictn_len[i]):
           if octant_col[q] != i:
             flag = False
-        
+        # updating count if condition satisfied
         if flag == True:
           dictn_cnt[i] += 1
 
       
       # finding maximum subsequence length's count for -i octant value
       # maximum subsequence length = dictn_len[0-i]
+      
+      
+      # iterating for each starting point of subsequence
       for w in range(cnt - dictn_len[0-i] + 1):
         flag = True
 
+        # checking over the window of length dictn_len[i] starting from w
         for q in range(w, w + dictn_len[0-i]):
           if octant_col[q] != (0-i):
             flag = False
-        
+            
+        # updating count if condition satisfied
         if flag == True:
           dictn_cnt[0-i] += 1
-
+     
+    # for octant column declared a list and appending the respective octant values
     count_col = []
     for i in range(1,5):
       count_col.append(i)
       count_col.append(0-i)
 
     count_col.extend(['']*(len(inp['U']) - 8))
+    # inserting column in outp variable
     outp['Octant'] = count_col
 
-
+     
+     # list for longest subsequence length and appending the values respectivelu by lookup from dictionary
     longest_len = []
     for i in range(1,5):
       longest_len.append(dictn_len[i])
       longest_len.append(dictn_len[0-i])
 
     longest_len.extend(['']*(len(inp['U']) - 8))
+    # inserted the column into outp
     outp['Longest Subsequence Length'] = longest_len
 
-
+    
+    # list for longest subsequence length count
     longest_count = []
     for i in range(1,5):
       longest_count.append(dictn_cnt[i])
       longest_count.append(dictn_cnt[0-i])
 
     longest_count.extend(['']*(len(inp['U']) - 8))
+    # inserted the column into outp
     outp['Count '] = longest_count
-
+     
+    # writing to output excel file
     outp.to_excel('output_octant_longest_subsequence.xlsx')
 
 
