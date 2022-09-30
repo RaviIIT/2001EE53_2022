@@ -320,7 +320,8 @@ def octact_identification(mod=5000):
           for w in range(1,5):
             col_one.append(dictn[w])
             col_one.append(dictn[0-w])
-
+          
+          # appended with empty cell
           col_one.append('')
 
           # iterating over individual ranges for -ve i octant value
