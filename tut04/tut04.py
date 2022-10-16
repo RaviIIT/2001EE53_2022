@@ -10,7 +10,7 @@ def octant_longest_subsequence_count_with_range():
 
     # error handling if input file do not exists
     try:
-        inp = pd.read_excel('input_octant_longest_subsequence_with_range.xlsx')
+        inp = pd.read_excel('/content/sample_data/input_octant_longest_subsequence_with_range.xlsx')
 
         # stored average of each column in input
         u_avg = inp['U'].mean()
@@ -280,6 +280,7 @@ def octant_longest_subsequence_count_with_range():
 
         long_len.extend(['']*(len(inp['U']) - len(long_len)))
 
+        # checking for errors in mismatch of lengths
         try:
             inp['Longest Subsequence Length  '] = long_len
         except:
@@ -325,20 +326,21 @@ def octant_longest_subsequence_count_with_range():
 
         long_cnt.extend(['']*(len(inp['U']) - len(long_cnt)))
 
+        # checking for errors in mismatch of lengths
         try:
             inp['Count   '] = long_cnt
         except:
             print('Error : Mismatch in length of another column named Count.')
 
+        # checking for error while writing to output file
         try:
             # writing to input excel file
-            inp.to_excel('output_octant_longest_subsequence.xlsx', index=0)
+            inp.to_excel('output_octant_longest_subsequence_with_range.xlsx', index=0)
         except:
             print('Error happened while writing to excel file.')
 
     except:
         print('Error encountered: Input file not found.')
-
 
 octant_longest_subsequence_count_with_range()
 
