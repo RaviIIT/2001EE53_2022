@@ -1,6 +1,7 @@
 import pandas as pd
 import math
-
+from datetime import datetime
+start_time = datetime.now()
 
 def octant_range_names(mod = 5000):
 
@@ -381,3 +382,7 @@ def octant_range_names(mod = 5000):
 
 mod = 5000
 octant_range_names(mod)
+
+#This shall be the last lines of the code.
+end_time = datetime.now()
+print('Duration of Program Execution: {}'.format(end_time - start_time))
