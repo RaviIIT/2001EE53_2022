@@ -10,7 +10,7 @@ def octant_longest_subsequence_count_with_range():
 
     # error handling if input file do not exists
     try:
-        inp = pd.read_excel('/content/sample_data/input_octant_longest_subsequence_with_range.xlsx')
+        inp = pd.read_excel('input_octant_longest_subsequence_with_range.xlsx')
 
         # stored average of each column in input
         u_avg = inp['U'].mean()
