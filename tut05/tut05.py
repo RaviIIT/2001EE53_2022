@@ -2,11 +2,9 @@ import pandas as pd
 import math
 
 def octact_identification(mod=5000):
-    
-    # stored excel file in a variable and took indexing on 0th column
 
     # error handling if file unable to open
-    # try:
+    try:
       outp = pd.read_excel('/content/sample_data/octant_input.xlsx')
       
       ## stored average of each column in input
@@ -113,8 +111,11 @@ def octact_identification(mod=5000):
                   octant_col.append(-4)
                   single_freq[-4] +=1
 
-      outp["Octant"] = octant_col 
-      
+      try:
+        outp["Octant"] = octant_col 
+      except:
+        print('Error : Mismatch in length of Octant')
+
       # entered new column
       user_input = ['',"User Input"]
 
@@ -243,8 +244,12 @@ def octact_identification(mod=5000):
               break
         
         rank_col.extend(['']*(len(outp['U']) - len(rank_col)))
-        outp['Rank '+str(i)] = rank_col
-        
+
+        try:
+          outp['Rank '+str(i)] = rank_col
+        except:
+          print('Error : Mismatch in length of Rank column during +ve octant entering')
+
         # for -i octant id
         rank_col = []
         ar_cmp = []
@@ -281,9 +286,16 @@ def octact_identification(mod=5000):
               break
         
         rank_col.extend(['']*(len(outp['U']) - len(rank_col)))
-        outp['Rank '+str(0-i)] = rank_col
 
-      outp['Rank1 Octant ID'] = rank_one_octant
+        try:
+          outp['Rank '+str(0-i)] = rank_col
+        except:
+          print('Error : Mismatch in length of Rank column during -ve octant entering')
+
+      try:
+        outp['Rank1 Octant ID'] = rank_one_octant
+      except:
+        print('Error : Mismatch in rank1 octant id column')
 
       dictn_usls = {}
       dictn_usls[1] = 'Internal outward interaction'
@@ -304,8 +316,11 @@ def octact_identification(mod=5000):
 
       rank_one_name.extend(['']*(len(outp['U']) - len(rank_one_name)))
 
-      outp['Rank1 Octant Name'] = rank_one_name
-
+      try:
+        outp['Rank1 Octant Name'] = rank_one_name
+      except:
+        print('Error : Mismatch in length og rank1 octant name')
+      
       # entering the lower terms of excel sheet
       cur_cnt = itr+5
       outp[1][cur_cnt] = 'Octant ID'
@@ -349,8 +364,8 @@ def octact_identification(mod=5000):
         outp.to_excel('octant_output_ranking_excel.xlsx', index = 0)
       except:
         print('Error encountered : While writing excel file.')
-    # except:
-    #   print("Error encountered")
+    except:
+      print("Error encountered")
     
     
 mod=5000
