@@ -29,7 +29,6 @@ def send_mail(fromaddr, frompasswd, toaddr, msg_subject, msg_body, file_path):
     msg['Subject'] = msg_subject
 
     body = msg_body
-    print('hello')
     msg.attach(MIMEText(body, 'plain'))
 
     filename = file_path
