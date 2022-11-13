@@ -277,7 +277,7 @@ def octant_range_names(mod = 5000):
             for w in range(len(ar_cmp)):
                 if ar_cmp[w][1] == (0-i):
                     if b == 0:
-                        rank_one_octant[2 + w] = i
+                        rank_one_octant[2 + w] = (0-i)
                     rank_col.append(w+1)
                     break
 
@@ -318,11 +318,11 @@ def octant_range_names(mod = 5000):
         
         # inserting values into list by lookup from given dictionary
         rank_one_name = []
-        rank_one_name.append(octant_name_id_mapping[rank_one_octant[0]])
+        rank_one_name.append(octant_name_id_mapping[str(rank_one_octant[0])])
         rank_one_name.append('')
 
         for i in range(itr):
-            rank_one_name.append(octant_name_id_mapping[rank_one_octant[2+i]])
+            rank_one_name.append(octant_name_id_mapping[str(rank_one_octant[2+i])])
 
         rank_one_name.extend(['']*(len(outp['U']) - len(rank_one_name)))
 
@@ -347,8 +347,8 @@ def octant_range_names(mod = 5000):
         
         # entering names terms of given dictionary
         for i in range(1, 5):
-            outp[-1][cur_cnt] = octant_name_id_mapping[i]
-            outp[-1][cur_cnt+1] = octant_name_id_mapping[0-i]
+            outp[-1][cur_cnt] = octant_name_id_mapping[str(i)]
+            outp[-1][cur_cnt+1] = octant_name_id_mapping[str(0-i)]
             cur_cnt = cur_cnt + 2
 
         cur_cnt = itr+5
