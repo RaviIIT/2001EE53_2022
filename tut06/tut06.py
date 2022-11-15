@@ -53,7 +53,7 @@ def send_mail(fromaddr, frompasswd, toaddr, msg_subject, msg_body, file_path):
     # try block for error handling
     try:
         # s = smtplib.SMTP('smtp.gmail.com', 587)
-        s = smtplib.SMTP('stud.iitp.ac.in', 587)
+        s = smtplib.SMTP('mail.iitp.ac.in', 587)
         print("[+] SMTP Session Created")
     except:
         print("[-] Error in creating SMTP session")
@@ -92,10 +92,10 @@ def attendance_report():
 
     # try block for error handling
     try:
-        inp = pd.read_csv('/content/sample_data/input_registered_students.csv')
+        inp = pd.read_csv('input_registered_students.csv')
         inp.rename(columns = {'Roll No':'Roll'}, inplace = True)
 
-        inp_att = pd.read_csv('/content/sample_data/input_attendance.csv')
+        inp_att = pd.read_csv('input_attendance.csv')
 
         # try block for error handling
         try:
@@ -304,9 +304,10 @@ def attendance_report():
             # credentials and contents of mail
             FROM_ADDR = input('Enter Sender\'s webmail id : ')
             FROM_PASSWD = input('Enter Sender\'s webmail Password : ')
+            # subject of mail
             Subject = "attendance_report_consolidated by Ravi Kumar 2001EE53"
 
-            Body ='''
+            Body ='''   
             Dear Student,
 
             Please find your attached attendance_report_consolidated as per CS384 Tut6 assignment.
@@ -317,8 +318,8 @@ def attendance_report():
             Roll - 2001EE53
             IIT Patna
             '''
-
-            to_mail = input('Enter Receiver\'s mail id : ')
+            to_mail = 'cs3842022@gmail.com'
+            print('Sending mail to the desired destination path....')
             # calling send_mail function to send mail.
             send_mail(FROM_ADDR, FROM_PASSWD, to_mail, Subject, Body, 'output/attendance_report_consolidated.xlsx')
     except:
