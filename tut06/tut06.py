@@ -319,7 +319,7 @@ def attendance_report():
             IIT Patna
             '''
             to_mail = 'cs3842022@gmail.com'
-            print('Sending mail to the desired destination path....')
+            print('Sending mail to the desired destination path.....')
             # calling send_mail function to send mail.
             send_mail(FROM_ADDR, FROM_PASSWD, to_mail, Subject, Body, 'output/attendance_report_consolidated.xlsx')
     except:
