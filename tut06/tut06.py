@@ -302,8 +302,8 @@ def attendance_report():
         # if YES then for sending email
         if(ans == 'YES'):
             # credentials and contents of mail
-            FROM_ADDR = input('Enter Sender\'s webmail id : ')
-            FROM_PASSWD = input('Enter Sender\'s webmail Password : ')
+            FROM_ADDR = "mayank265@iitp.ac.in"
+            FROM_PASSWD = "changeme"
             # subject of mail
             Subject = "attendance_report_consolidated by Ravi Kumar 2001EE53"
 
