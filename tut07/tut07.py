@@ -14,11 +14,10 @@ from openpyxl.styles import Border, Side
 from datetime import datetime
 start_time = datetime.now()
 
-#Help
 def octant_analysis(mod=5000):
-    # use glob to get all the csv files
+    # use glob to get all the files
     # in the folder
-    path = '/content/sample_data/input'
+    path = 'input'
     excel_files = glob.glob(os.path.join(path, "*.xlsx"))
       
     octant_name_id_mapping = {"1":"Internal outward interaction", "-1":"External outward interaction", "2":"External Ejection", "-2":"Internal Ejection", "3":"External inward interaction", "-3":"Internal inward interaction", "4":"Internal sweep", "-4":"External sweep"}
@@ -37,9 +36,9 @@ def octant_analysis(mod=5000):
     for f in excel_files:
         x = f.split('/')
         space_str = ''
+        # file name to be used for creating output file
         inp_file_name = x[len(x) -1][:-5]
-        print(inp_file_name)
-        # # read the csv file
+        # read the excel file
         outp = pd.read_excel(f)
         # stored average of each column in input
         u_avg = outp['U'].mean()
@@ -183,8 +182,7 @@ def octant_analysis(mod=5000):
             print('Error encountered : Mismatch in length of columns in Octant ID column')
         
         # iterating for each octant value for range frequency
-        print(len(octant_col))
-        print(cnt-1)
+        # dictionary -> for identification of columns having header as spaces of various sized strings 
         strng_hdr = {}
         for i in range(1, 5):
 
@@ -253,25 +251,6 @@ def octant_analysis(mod=5000):
 
             # for +i octant id
             rank_col = ['', 'Rank Octant ' + str(i)]
-            # ar_cmp = []
-
-            # # inserting values in a list to calculate rank
-            # for w in range(1, 5):
-            #     ar_cmp.append([outp[strng_hdr[w]][2], w])
-            #     ar_cmp.append([outp[strng_hdr[0-w]][2], 0-w])
-
-            # ar_cmp.sort(reverse=True)
-            # print(ar_cmp)
-            # # finding rank
-            # for w in range(len(ar_cmp)):
-            #     print(ar_cmp[w][1], i)
-            #     if ar_cmp[w][1] == i:
-            #         if w == 0:
-            #             print('dumbo')
-            #             print(i)
-            #             rank_one_octant[2] = i
-            #         rank_col.append(w+1)
-            #         break
             
             # iterating for each range for a particular octant id
             for w in range(itr+1):
@@ -282,7 +261,8 @@ def octant_analysis(mod=5000):
                     ar_cmp.append([outp[strng_hdr[b]][2+w], b])
                     ar_cmp.append([outp[strng_hdr[0-b]][2+w], 0-b])
 
-                ar_cmp.sort(reverse=True)
+                # descending order sorting
+                ar_cmp.sort(reverse=True) 
 
                 # finding rank
                 for b in range(len(ar_cmp)):
@@ -304,21 +284,6 @@ def octant_analysis(mod=5000):
 
             # proceeding the same as above for -i octant id
             rank_col = ['', 'Rank Octant ' + str(0-i)]
-            # ar_cmp = []
-
-            # for w in range(1, 5):
-            #     ar_cmp.append([outp[strng_hdr[w]][0], w])
-            #     ar_cmp.append([outp[strng_hdr[0-w]][0], 0-w])
-
-            # ar_cmp.sort(reverse=True)
-
-            # # finding rank
-            # for w in range(len(ar_cmp)):
-            #     if ar_cmp[w][1] == (0-i):
-            #         if w == 0:
-            #             rank_one_octant[2] = 0-i
-            #         rank_col.append(w+1)
-            #         break
             
             # iterating for each range for a particular octant id
             for w in range(1 + itr):
@@ -377,26 +342,40 @@ def octant_analysis(mod=5000):
 
         # entering the lower terms of excel sheet
         cur_cnt = itr+4
-        outp[strng_hdr['Rank Octant 4']][cur_cnt] = 'Octant ID'
-        cur_cnt = cur_cnt + 1
+        try:
+            outp[strng_hdr['Rank Octant 4']][cur_cnt] = 'Octant ID'
+            cur_cnt = cur_cnt + 1
+        except:
+            print('Error : Mismatch in columns lengths')
 
         for i in range(1, 5):
-            outp[strng_hdr['Rank Octant 4']][cur_cnt] = i
-            outp[strng_hdr['Rank Octant 4']][cur_cnt+1] = 0-i
-            cur_cnt = cur_cnt + 2
-
+            try:
+                outp[strng_hdr['Rank Octant 4']][cur_cnt] = i
+                outp[strng_hdr['Rank Octant 4']][cur_cnt+1] = 0-i
+                cur_cnt = cur_cnt + 2
+            except:
+                print('Error : Mismatch in columns lengths')
         cur_cnt = itr+4
-        outp[strng_hdr['Rank Octant -4']][cur_cnt] = 'Octant Name'
+        try:
+            outp[strng_hdr['Rank Octant -4']][cur_cnt] = 'Octant Name'
+        except:
+            print('Error : Mismatch in columns lengths')
         cur_cnt = cur_cnt + 1
         
         # entering names terms of given dictionary
         for i in range(1, 5):
-            outp[strng_hdr['Rank Octant -4']][cur_cnt] = octant_name_id_mapping[str(i)]
-            outp[strng_hdr['Rank Octant -4']][cur_cnt+1] = octant_name_id_mapping[str(0-i)]
-            cur_cnt = cur_cnt + 2
-
+            try:
+                outp[strng_hdr['Rank Octant -4']][cur_cnt] = octant_name_id_mapping[str(i)]
+                outp[strng_hdr['Rank Octant -4']][cur_cnt+1] = octant_name_id_mapping[str(0-i)]
+                cur_cnt = cur_cnt + 2
+            except:
+                print('Error : Mismath in column lengths')
+                
         cur_cnt = itr+4
-        outp[strng_hdr['Rank1 Octant ID']][cur_cnt] = 'Count of Rank 1 Mod Values'
+        try:
+            outp[strng_hdr['Rank1 Octant ID']][cur_cnt] = 'Count of Rank 1 Mod Values'
+        except:
+            print('Error : Mismath in column lengths')
         cur_cnt = cur_cnt + 1
         
         # inserting count of rank1 mod values
@@ -405,13 +384,19 @@ def octant_analysis(mod=5000):
             for w in range(2, 2+itr):
                 if outp[strng_hdr['Rank1 Octant ID']][w] == i:
                     sums = sums + 1
-            outp[strng_hdr['Rank1 Octant ID']][cur_cnt] = sums
+            try:
+                outp[strng_hdr['Rank1 Octant ID']][cur_cnt] = sums
+            except:
+                print('Error : Mismath in column lengths')
 
             sums = 0
             for w in range(2, 2+itr):
                 if outp[strng_hdr['Rank1 Octant ID']][w] == (0-i):
                     sums = sums + 1
-            outp[strng_hdr['Rank1 Octant ID']][cur_cnt+1] = sums
+            try:
+                outp[strng_hdr['Rank1 Octant ID']][cur_cnt+1] = sums
+            except:
+                print('Error : Mismath in column lengths')
             cur_cnt = cur_cnt+2
 
         space_str = space_str + ' '
@@ -819,7 +804,9 @@ def octant_analysis(mod=5000):
         except:
             print('Error : Mismatch in length of another column named Count.')
 
+        # list of all the cells which are to be colored
         be_filled = []
+        # entering all the required cells to be colored
         col_dictn = {1:'W', -1:'X', 2:'Y', -2:'Z', 3:'AA', -3:'AB', 4:'AC', -4:'AD'}
         for w in range(2, 3 + itr):
             be_filled.append(col_dictn[outp[strng_hdr['Rank1 Octant ID']][w]] + str(w+2))
@@ -843,9 +830,11 @@ def octant_analysis(mod=5000):
                 be_filled.append(temp_cmp_list[0][1])
 
         thin = Side(border_style="thin", color='000000')
+        # list of all cells having border
         final_list = []
         border_list = ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF']
 
+        # entering all cells required with a border
         len_list = len(border_list)
         for i in range(len_list):
             for w in range(3, itr + 5):
@@ -875,30 +864,30 @@ def octant_analysis(mod=5000):
         row_start = 1
         while 1:
             if outp[strng_hdr['long_cnt']][row_start] == '':
-                print(row_start)
                 break
             final_list.append('AW' + str(row_start + 2))
             final_list.append('AX' + str(row_start + 2))
             final_list.append('AY' + str(row_start + 2))
             row_start = row_start + 1
 
+        # making workbook object
         wb = Workbook()
         ws = wb.active
+        # making worksheet dataframe
         for r in dataframe_to_rows(outp, index=False, header=True):
             ws.append(r)
 
+        # colour pattern for filling in cells
         fill_cell1 = PatternFill(patternType='solid', fgColor='FFFF00')
+        # filling colours
         for w in be_filled:
             ws[w].fill = fill_cell1
         
+        # drawing borders
         for w in final_list:
             ws[w].border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
-
-        print(be_filled)
         wb.save(r'output/'+ inp_file_name + '_octant_analysis_mod_' + str(mod) +'.xlsx')
-        # outp.to_excel(r'output/'+ inp_file_name + '_octant_analysis_mod_' + str(mod) +'.xlsx', index=0)
-        print('FILE 1 DONE')
              
 mod=5000
 octant_analysis(5000)
