@@ -407,7 +407,7 @@ lines_append = []
 
 # Pakistan innings scorecard
 # -------------------------------------------------------------------------------------------------------------------------------
-lines_append.append(f"{'Pakistan Innings' : <60}{str(pak_runs) + '-' + str(len(ind_bowled)) + ' (' + pak_last_ball + ' Ov)' : >60}")
+lines_append.append(f"{'Pakistan Innings' : <60}{str(pak_runs) + '-' + str(min(10,len(ind_bowled))) + ' (' + pak_last_ball + ' Ov)' : >60}")
 lines_append.append(f"{'Batter' : <30}{' ' : <40}{'R' : >10}{'B' : >10}{'4s' : >10}{'6s' : >10}{'SR' : >10}")
 
 # appending batsman details
@@ -466,7 +466,7 @@ lines_append.append('\n')
 # --------------------------------------------------------------------------------------------------------------------------------------
 
 # India scorecard
-lines_append.append(f"{'India Innings' : <60}{str(ind_runs) + '-' + str(len(pak_bowled)) + ' (' + ind_last_ball + ' Ov)' : >60}")
+lines_append.append(f"{'India Innings' : <60}{str(ind_runs) + '-' + str(min(10,len(pak_bowled))) + ' (' + ind_last_ball + ' Ov)' : >60}")
 lines_append.append(f"{'Batter' : <30}{' ' : <40}{'R' : >10}{'B' : >10}{'4s' : >10}{'6s' : >10}{'SR' : >10}")
 
 # appending batsman details
