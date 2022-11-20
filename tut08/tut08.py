@@ -3,7 +3,10 @@ team_india = []
 team_pakistan = []
 
 # opened teams file
-team_file = open('teams.txt')
+try:
+    team_file = open('teams.txt')
+except:
+    print('Error occured while opening teams file.')
 count = 0
 while True:
     # Get next line from file
@@ -28,8 +31,10 @@ for w in range(len(team_india)):
         team_india[w] = team_india[w][:len(team_india[w])-3]
 
 # openend India innings file
-file1 = open('india_inns2.txt', 'r')
-
+try:
+    file1 = open('india_inns2.txt', 'r')
+except:
+    print('Error occured while opening India innings file.')
 
 ind_batsman_runs = {}                                   #runs of indian batsman
 ind_batsman_balls = {}                                  #balls taken by indian batsman
@@ -240,7 +245,11 @@ ind_not_bat.remove('Suryakumar Yadav')
 
 # Team Pakistan Innings
 # -------------------------------------------------------------------------------------------------------------------------------------
-file1 = open('pak_inns1.txt', 'r')
+try:
+    file1 = open('pak_inns1.txt', 'r')
+except:
+    print('Error occured while opening Pakistan Innings file.')
+    
 while True:
     # Get next line from file
     line = file1.readline()
@@ -522,7 +531,9 @@ lines_append.append(f"{'Mandatory' : <60}{'0.1-6' : <30}{ind_pplay : >30}")
 
 # writing all the lines to scorecard
 for lines in lines_append:
-    card.write(lines + '\n')
-
+    try:
+        card.write(lines + '\n')
+    except:
+        print('Error occured while writing files')
 # closing scorecard file
 card.close()
