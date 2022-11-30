@@ -51,13 +51,13 @@ class ChatServer:
                 new_usr_mail = str(self.last_received_message).split('--mail--')[1]
                 
                 username_password[new_usr_name] = new_usr_pass             
-                username_mail[new_usr_name] = new_usr_mail
+                username_mail[new_usr_mail] = new_usr_name
                 print('New username : ', new_usr_name, ' and New Password : ', new_usr_pass)   
             elif '--reset--' in str(self.last_received_message):                                # reset password
                 new_usr_name = str(self.last_received_message).split('--reset--')[0]
                 new_usr_pass = str(self.last_received_message).split('--reset--')[1]
                 #changed password into map
-                username_password[new_usr_name] = new_usr_pass
+                username_password[username_mail[new_usr_name]] = new_usr_pass
             elif '=' in str(self.last_received_message):                                        # new user joined
                 usr_name = str(self.last_received_message).split('=')[0].split('joined:')[1]
                 usr_pass = str(self.last_received_message).split('=')[1]
