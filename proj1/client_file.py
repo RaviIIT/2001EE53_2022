@@ -9,6 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
 from email.mime.base import MIMEBase
+from tkinter.tix import *
 from email import encoders
 import random
 import math
@@ -26,6 +27,7 @@ class GUI:
         self.name_widget = None
         self.password_widget = None
         self.enter_text_widget = None
+        self.flag = bool(1)
         self.join_button = None
         
         # intitialise sockets and makes tkinter based gui
@@ -43,6 +45,8 @@ class GUI:
     # GUI initializer
     def initialize_gui(self): 
         self.root.title("Chat App") 
+        # emoticons map with specific keywords
+        self.emotioncs_map = {'/Happy':'｡^‿^｡','/Dance':'~( ˘▾˘~)','/Flirt':'(‿!‿) ԅ(≖‿≖ԅ)','/Ok':'٩(•̤̀ᵕ•̤́๑)ᵒᵏᵎᵎᵎᵎ','/Confused' : 'O.o', '/Cool' : 'B-)', '/Sarcastic' : '( ͡° ͜ʖ ͡° )', '/Joy':'(づ ◕‿◕ )づ', '/Greedy':'$_$', '/Sleep':'(－_－) zzZ', '/Wow':'(ᵒ̤̑ ₀̑ ᵒ̤̑)wow!*✰'}
         # adding a menu bar
         self.menu = Menu(self.root)
         root.config(menu=self.menu)
@@ -60,22 +64,22 @@ class GUI:
         self.display_otp_section()
         self.display_enter_otp_section()
         self.display_new_password_section()
-        self.display_send_file_section()
-        self.display_chat_entry_box()
         self.display_chat_box()
+        self.display_chat_entry_box()
+        self.display_send_file_section()
         
     def display_name_section(self):
         frame = Frame()
         # welcome label
-        Label(frame, text='Welcome to Chat App',fg='#00008B', font=('Copperplate Gothic Bold', 20)).pack(side='left', padx=520)
+        Label(frame, text='IIT Patna Student Chat Portal',fg='#0d0d0d', font=('Cambria', 24, "underline")).pack(side='left', padx=520)
         frame.pack(side='top', anchor='nw')
         
         # email labels and entry boxes
         frame = Frame()
-        Label(frame, text='Enter Your E-mail Here! ', font=("arial", 13,"bold")).pack(side='left', pady=20)
+        Label(frame, text='Enter Your Username Here! ', font=("arial", 13,"bold")).pack(side='left', pady=20)
         self.name_widget = Entry(frame, width=60,font=("arial", 13))
-        self.name_widget.pack(side='left', anchor='e',padx=160, pady=15)
-        self.join_button = Button(frame, text="Join", width=10, command=self.on_join).pack(side='right',padx=5, pady=15)
+        self.name_widget.pack(side='left', anchor='e',padx=123, pady=15)
+        self.join_button = Button(frame, text="Join", font=("arial", 11,"bold"), width=10, command=self.on_join).pack(side='right',padx=45, pady=15)
         frame.pack(side='top', anchor='nw')
         
     def display_password_section(self):
@@ -84,7 +88,7 @@ class GUI:
         Label(frame, text='Enter Your Password Here! ', font=("arial", 13,"bold")).pack(side='left')
         self.password_widget = Entry(frame, width=60,font=("arial", 13))
         self.password_widget.pack(side='left', anchor='e', padx=125, pady=1)
-        self.forgot_password_button = Button(frame, text="Forgot Password", width=20, command=self.forgot_password).pack(side='right',padx=5, pady=1)
+        self.forgot_password_button = Button(frame, text="Forgot Password",font=("arial", 11,"bold"), width=20, command=self.forgot_password).pack(side='right',padx=5, pady=1)
         frame.pack(side='top', anchor='nw')
 
     def display_otp_section(self):
@@ -93,7 +97,7 @@ class GUI:
         Label(frame, text='Enter E-mail to Reset Your Password ', font=("arial", 13,"bold")).pack(side='left', pady=10)
         self.get_otp_widget = Entry(frame, width=60,font=("arial", 13))
         self.get_otp_widget.pack(side='left', anchor='e',padx=50, pady=10)
-        self.get_otp_button = Button(frame, text="Get OTP", width=10, command=self.send_otp).pack(side='right',padx=120, pady=10)
+        self.get_otp_button = Button(frame, text="Get OTP",font=("arial", 11,"bold"), width=10, command=self.send_otp).pack(side='right',padx=120, pady=10)
         frame.pack(side='top', anchor='nw')        
         self.get_otp_widget.config(state='disabled')
 
@@ -103,7 +107,7 @@ class GUI:
         Label(frame, text='Enter OTP for Password Reset ', font=("arial", 13,"bold")).pack(side='left', pady=10)
         self.enter_otp_widget = Entry(frame, width=60,font=("arial", 13))
         self.enter_otp_widget.pack(side='left', anchor='e',padx=100, pady=10)
-        self.enter_otp_button = Button(frame, text="Submit OTP", width=10, command=self.submit_otp).pack(side='right',padx=70, pady=10)
+        self.enter_otp_button = Button(frame, text="Submit OTP",font=("arial", 11,"bold"), width=10, command=self.submit_otp).pack(side='right',padx=70, pady=10)
         self.enter_otp_widget.config(state='disabled')
         frame.pack(side='top', anchor='nw')        
         
@@ -113,43 +117,71 @@ class GUI:
         Label(frame, text='Enter New Password for Password Reset ', font=("arial", 13,"bold")).pack(side='left', pady=20)
         self.new_password_widget = Entry(frame, width=60,font=("arial", 13))
         self.new_password_widget.pack(side='left', anchor='e',padx=20, pady=15)
-        self.new_password_button = Button(frame, text="Reset Password", width=15, command=self.reset_password).pack(side='right',padx=120, pady=15)
+        self.new_password_button = Button(frame, text="Reset Password",font=("arial", 11,"bold"), width=15, command=self.reset_password).pack(side='right',padx=120, pady=15)
         self.new_password_widget.config(state='disabled')
         frame.pack(side='top', anchor='nw')        
 
     def display_send_file_section(self):
         frame = Frame()
-        self.button_explore = Button(frame, text = "Send Files", width=10, command=self.browseFiles).pack(side='right',padx=30, pady=10)
-        self.button_invite_friends = Button(frame, text = "Invite Friends", width=20, command=self.invite_friends_fun).pack(side='right',padx=20, pady=10)
+        # bottom buttons arrangement
+        self.button_explore = Button(frame, text = "Send Files", width=16,fg='#000000',bg='#ffcccc',font=("Sans Serif", 15), command=self.browseFiles).pack(side='left',padx=40, pady=10)
+        self.button_invite_friends = Button(frame, text = "Invite Friends", fg='#000000',bg='#ffcccc',font=("Sans Serif", 15), width=16, command=self.invite_friends_fun).pack(side='left',padx=40, pady=10)
+        self.button_new_user = Button(frame, text = "Sign Up", width=16,fg='#000000',bg='#ffcccc',font=("Sans Serif", 15), command=self.open_sign_up_file).pack(side='right',padx=20, pady=10)
+        Label(frame, text='New User?',font=("Sans Serif", 14, "bold")).pack(side='right',padx=10, pady=20)
+        self.button_block = Button(frame, text = "Block Notifs.", width=16,fg='#000000',bg='#ffcccc',font=("Sans Serif", 15), command=self.block_chat).pack(side='left',padx=30, pady=10)
+        self.button_clear_chat = Button(frame, text = "Clear Chats", width=16,fg='#000000',bg='#ffcccc',font=("Sans Serif", 15), command=self.delete_chat).pack(side='left',padx=30, pady=10)
         frame.pack(side='top', anchor='nw')        
-
+    
+    # when block chat is pressed it acts as a toggle between 0 and 1
+    def block_chat(self):
+        self.flag = ((self.flag)^1)
+        print(self.flag)
+    
+    # when clear chat is pressed, it deletes chat area
+    def delete_chat(self):
+        self.chat_transcript_area.delete("1.0", "end")
+        
     def display_chat_box(self):
         frame = Frame()
         # chat box to display chats by receiving from server
         Label(frame, text='Chat Box', fg='#660000', font=("arial", 16,"italic")).pack(side='top', padx=270)
-        self.chat_transcript_area = Text(frame, width=80, height=18, font=("arial", 12))
+        self.chat_transcript_area = Text(frame, width=140, height=11, font=("arial", 12))
         scrollbar = Scrollbar(frame, command=self.chat_transcript_area.yview, orient=VERTICAL)
         self.chat_transcript_area.config(yscrollcommand=scrollbar.set)
         self.chat_transcript_area.bind('<KeyPress>', lambda e: 'break')
-        self.chat_transcript_area.pack(side='left', padx=15, pady=10)
+        self.chat_transcript_area.pack(side='left', padx=15, pady=8)
+        # scrollbar alignment
         scrollbar.pack(side='right', fill='y',padx=1)
-        frame.pack(side='left')
+        frame.pack(side='top')
 
     def display_chat_entry_box(self):   
         frame = Frame()
         # place to type chat, after enter key is pressed, corresoponding on_enter_key_pressed function called
-        Label(frame, text='Enter Your Message Here!', fg='#660000', font=("arial", 16,"italic")).pack(side='top', anchor='w', padx=160)
-        self.enter_text_widget = Text(frame, width=80, height=18, font=("arial", 12))
-        self.enter_text_widget.pack(side='left', pady=10, padx=10)
-        self.enter_text_widget.bind('<Return>', self.on_enter_key_pressed)
-        frame.pack(side='left')
+        self.temp_label = Label(frame, text='Enter Your Message Here!', fg='#660000', font=("comic sans ms", 16,"italic")).pack(side='top', anchor='w', padx=450)
+        self.enter_text_widget = Text(frame,bg='#e6ffff', width=130, height=2, font=("constantia", 12))
+        self.enter_text_widget.pack(side='left', pady=8, padx=10)
+        self.send_button = Button(frame, text="Send", width=10,command=self.on_enter_key_pressed, font=("calibri", 13,"bold")).pack(side='right',padx=20, pady=10)
+        # self.enter_text_widget.bind('<Return>', self.on_enter_key_pressed)
+        frame.pack(side='top')
 
+    # when new file is clicked from menu bar
     def open_new_file(self):
+        # opening file in a seperate thread, so that other process don't wait for it.
         self.thread_file = threading.Thread(target=self.open_func)
         self.thread_file.start()
     
+    # opening file 
     def open_func(self):    
         os.system('python client_file.py')
+
+    # opening sign up file in a seperate thread when signup button is pressed
+    def open_sign_up_file(self):
+        self.thread_file2 = threading.Thread(target=self.open_reg_file)
+        self.thread_file2.start()
+    
+    # opening sign up file
+    def open_reg_file(self):    
+        os.system('python signUp_file.py')
 
     def browseFiles(self):
         # to send files to server
@@ -169,9 +201,9 @@ class GUI:
                 # sending data of file to server with [[[ ..... ]]] this way encoding, so to uniquely determine at server's side.
                 self.client_socket.send(( str(self.name_widget.get()) + " joined:" + '[[[' + str(data) + ']]]').encode('utf-8'))
 
+    # new top tkinter GUI for person invitation, when invite to friends button is clicked
     def invite_friends_fun(self):
         self.top = Toplevel(root, width=100)
-        # self.top.resizable(0,0)
         self.label_mail = Label(self.top, text='Enter Mail id').pack()
         self.invite_btn = Button(self.top, text='Send', command=self.invite_via_mail) 
         self.invite_mail_id = Entry(self.top)
@@ -207,7 +239,7 @@ class GUI:
             dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
             # receiving and decoding what to print, with the desired encodings
-            
+            print(str(message))
             # last seen notif is received
             if message[-1] == '-':
                 message = user + ' was last seen at ' + dt_string
@@ -237,17 +269,32 @@ class GUI:
                 self.chat_transcript_area.insert('end', message + '\n')
                 self.chat_transcript_area.yview(END)
             elif "error" in message:                            # wrong credentials notification received
-                # setting the entry boxes to desired state and showing error message 
-                self.name_widget.delete(0, END);
-                self.password_widget.delete(0, END);
-                self.name_widget.config(state='normal')
-                self.password_widget.config(state='normal')
                 messagebox.showerror("Invalid username or Password, enter valid credentials again and press join.")
             else:                                               # normal chat message notification
-                self.chat_transcript_area.insert('end',message + '\n')
-                self.chat_transcript_area.yview(END)
+                if (self.flag == 1):                    
+                    self.show_msg = self.chat_emoji_decrypt(msg=message)
+                    print('hello')
+                    self.chat_transcript_area.insert('end', self.show_msg + '\n')
+                    self.chat_transcript_area.yview(END)
 
         so.close()
+    
+    def chat_emoji_decrypt(self, msg):
+        for i in self.emotioncs_map:            # checking for each emoticon if present
+            print(i, msg)
+            if i in str(msg):
+                # inserting the respective emoticon at the desired location.
+                str_indx = str(msg).index(str(i))
+                lst_indx = str_indx + len(str(i)) - 1
+                
+                fst_part = str(msg[:str_indx])
+                mid_part = str(self.emotioncs_map[i])
+                lst_part = str(msg[lst_indx+1:])
+                
+                #modified msgs 
+                return (fst_part + mid_part + lst_part)
+            
+        return msg                
 
     # mail function to send invitation mail to friends with client_file code
     def send_invitation_mail(self, fromaddr, frompasswd, toaddr, msg_subject, msg_body, file_path):
@@ -325,6 +372,7 @@ class GUI:
         self.get_otp_widget.delete(0, END);
         self.enter_otp_widget.delete(0, END);
         self.new_password_widget.delete(0, END);
+        # disabling all the req text boxes after password got reset
         self.get_otp_widget.config(state='disabled')
         self.enter_otp_widget.config(state='disabled')
         self.new_password_widget.config(state='disabled')
@@ -406,12 +454,10 @@ class GUI:
             messagebox.showerror(
                 "Enter your name", "Enter your name to send a message")
             return
-        self.name_widget.config(state='disabled')
-        self.password_widget.config(state='disabled')
         # sending info to server
         self.client_socket.send(("joined:" + self.name_widget.get() + '='+ self.password_widget.get()).encode('utf-8'))
 
-    def on_enter_key_pressed(self, event):
+    def on_enter_key_pressed(self):
         if len(self.name_widget.get()) == 0:
             messagebox.showerror("Enter your name", "Enter your name to send a message")
             return
@@ -431,7 +477,7 @@ class GUI:
         senders_name = '[' + dt_string + '] : ' + self.name_widget.get().strip().strip() + ": "
         data = self.enter_text_widget.get(1.0, 'end').strip()
         message = (senders_name + data).encode('utf-8')
-        self.chat_transcript_area.insert('end', message.decode('utf-8') + '\n')
+        self.chat_transcript_area.insert('end',message.decode('utf-8') + '\n')
         self.chat_transcript_area.yview(END)
         self.client_socket.send(message)
         self.enter_text_widget.delete(1.0, 'end')
