@@ -212,8 +212,8 @@ class GUI:
     
     def invite_via_mail(self):
         # inviting friends via mail from another window
-        FROM_ADDR = "ravi_2001ee53@iitp.ac.in"
-        FROM_PASSWD = "Ravibihtaiit@1$"
+        FROM_ADDR = "cs384@iitp.ac.in"
+        FROM_PASSWD = "changeme"
         Subject = "Chat App Invitation"
         Body = 'Your friend has invited you to join chat app. Please open the attached file code.'
         
@@ -440,8 +440,8 @@ class GUI:
         
         self.otp_ar.append(random_str)
         
-        FROM_ADDR = "ravi_2001ee53@iitp.ac.in"
-        FROM_PASSWD = "Ravibihtaiit@1$"
+        FROM_ADDR = "cs384@iitp.ac.in"
+        FROM_PASSWD = "changeme"
         Subject = "Chat App OTP for Password Reset"
         Body = 'Your One Time Password to Reset your password is ' + random_str
         
